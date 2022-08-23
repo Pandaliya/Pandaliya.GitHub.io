@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cleinTTech</title>
+    <link>https://blog.page3app.com/docs/category/css/</link>
+    <description>Recent content on cleinTTech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language><atom:link href="https://blog.page3app.com/docs/category/css/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flex弹性布局</title>
+      <link>https://blog.page3app.com/docs/category/css/01-flex%E5%B8%83%E5%B1%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/01-flex%E5%B8%83%E5%B1%80/</guid>
+      <description>Flex弹性布局 #  Flex布局和传统布局比较
+传统布局的优缺点：
+ 兼容性好 布局繁琐 不能很好的适用于移动端布局  Flex弹性布局：
+ 操作方便，布局简单 PC端浏览器支持情况较差 IE 11或更低版本，部分支持  建议：PC端布局用传统布局；移动端或不考虑兼容性，用Flex布局
+Flex布局原理 #  Flex用来为盒子状模型提供最大的灵活性，任何一个容器都可以指定flex布局
+注意
+当我们为父盒子设为flex布局之后，子元素的float clear和vertical-align属性将失效  原理：采用Flex布局的元素，称为Flex容器（flex container）；它所有的子元素自动成为容器成员，称为Flex 项目（flex item）；项目可以横向排列也可以纵向排列。Flex布局就是通过给容器添加flex属性，来控制项目的位置和排列方式。
+父项常用属性 #  div {  /* 1 设置主轴的方向 */  flex-direction: row;   /* 2 设置主轴上子元素的排列方式 */  justify-content: flex-start;   /* 3 设置子元素是否换行*/  flex-wrap: nowrap;   /* 4 设置侧轴上子元素的排列方式（单行） */  align-items: flex-start;   /* 5 设置侧轴上子元素的排列方式（多行，子项出现换行）*/  align-content: flex-start;   /* 6 设置主轴和是否换行（列） */  flex-flow: row wrap; } flex-direction #  该属性设置主轴的方向。flex中的项目是沿着主轴排列的；我们可以通过设置flex-direction来设置主轴为X轴或Y轴</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/css/02-first-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/02-first-page/</guid>
+      <description>First page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/css/02-page-2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/02-page-2/</guid>
+      <description>Second Page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/css/04-second-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/04-second-page/</guid>
+      <description>Second Page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+    </item>
+    
+  </channel>
+</rss>

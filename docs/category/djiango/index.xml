@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cleinTTech</title>
+    <link>https://blog.page3app.com/docs/category/djiango/</link>
+    <description>Recent content on cleinTTech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language><atom:link href="https://blog.page3app.com/docs/category/djiango/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/django_csrf/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/django_csrf/</guid>
+      <description>Django csrf防御机制 #  csrf（跨站请求伪造）攻击介绍 #  跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并执行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去执行。
+这利用了web中用户身份验证的一个漏洞：简单的身份验证只能保证请求是发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。
+一个例子
+假如一家银行用以执行转账操作的URL地址如下： https://bank.example.com/withdraw?account=AccoutName&amp;amp;amount=1000&amp;amp;for=PayeeName
+那么，一个恶意攻击者可以在另一个网站上放置如下代码： &amp;lt;img src=&amp;quot;https://bank.example.com/withdraw?account=Alice&amp;amp;amount=1000&amp;amp;for=Badman&amp;quot; /&amp;gt;
+如果有账户名为Alice的用户访问了恶意站点，而她之前刚访问过银行不久，登录信息尚未过期，那么她就会损失1000资金。
+透过例子能够看出，攻击者并不能通过CSRF攻击来直接获取用户的账户控制权，也不能直接窃取用户的任何信息。他们能做到的，是欺骗用户的浏览器，让其以用户的名义执行操作。
+Django 防御 #  在客户端页面上添加csrftoken, 服务器端进行验证，服务器端验证的工作通过&amp;rsquo;django.middleware.csrf.CsrfViewMiddleware&amp;rsquo;这个中间层来完成。
+&amp;hellip;待续
+Tips #  如何关闭验证
+在视图函数中添加csrf_exempt装饰
+from django.views.decorators.csrf import csrf_exempt  @csrf_exempt def post_data(request):  pass 在urlconf中配置
+from django.views.decorators.csrf import csrf_exempt urlpatterns = [  url(r&amp;#39;^post/get_data/$&amp;#39;, csrf_exempt(post_data), name=&amp;#39;post_data&amp;#39;),  ] </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/django_post/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/django_post/</guid>
+      <description>Django RUSTApi 开发 #  Django实现Post请求 #  以下是在view中添加一个post请求的完整示例
+# views.py from django.http import HttpResponse, JsonResponse from django.views.decorators.csrf import csrf_exempt  # 如果需要取消该请求的CSRF验证,否则单独请求时会返回403 @csrf_exempt def markdown_wiki_update(request):  # 1. 非post请求直接返回  if request.method != &amp;#39;POST&amp;#39;:  return JsonResponse(RES_JSON_DICT)   # 2. 解析json形式的body  try:  json_body = json.loads(request.body)  except Exception as e:  print(&amp;#39;Reason:&amp;#39;, e)  return JsonResponse(RES_JSON_DICT)   # 3. 数据更新操作  # ...   # 4.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/model_backup/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/model_backup/</guid>
+      <description>数据（Model）备份 #  dumpdata #  django的dumpdata可以备份（导出）模型实例或整个数据库
+# 导出整个数据库 python manage.py dumpdata &amp;gt; db.json  # 导出某个app（备份admin到admin.json） python manage.py dumpdata admin &amp;gt; admin.json  # 导出某个app（指定settings） python manage.py dumpdata appname --settings=settings.settings_dev_win &amp;gt; ./resource/appname.json loaddata #  我们可以使用loaddata将备份数据导入到数据库中
+# 导入某个数据库 python manage.py loaddata --settings=settings.settings_dev_win ./esource/appname.json 遇到的问题 #  编码问题 #  在使用loaddata出现以下错误：
+ Python: Can dumpdata cannot loaddata back. UnicodeDecodeError
+ 解决方法：将导出的json文件使用utf-8编码重写保存（推荐使用vscode）
+注意settings设置 #  导出和导入时使用同一个settings文件（至少要包含所导入的app）</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/model_filter/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/model_filter/</guid>
+      <description>模型操作之查询与修改 #  创建数据模型完成，Django自动提供一套数据库操作API，运行创建，查询，更新和删除对象。本文介绍这些常用操作。
+1.0 检索最新修改的10个对象 #  这个操作设计以下几个api
+objects和QuerySet #  模型创建完成后，就会自动生成一个默认名称为objects的Manager，Manager提供一系列的api来生成满足特定条件的QuerySet。
+一个QuerySet代表满足特定条件的集合，在SQL层面上对应SELECT语句。
+# 只能通过模型类访问Managers, 而不能是具体的实例 MyModel.objects  # 返回模型的所有实例 MyModel.objects.all() 切片 #  可以使用python数组切片语法将QuerySet切成指定长度
+# 返回前5个实例（LIMIT 5） MyModel.objects.all()[:5]  # 返回第6到10个对象（OFFSET 5 LIMIT 5） MyModel.objects.all()[5:10]  # 不支持负索引，下面的代码会抛出异常而不是返回最后5个实例 # MyModel.objects.all()[-5:]  # 默认情况返回的QuerySet并为执行查询，但是使用切片的步长语法时将会执行查询 # 获取前10个对象，每隔一个对象取出组成列表 MyModel.objects.all()[:10:2] order_by #  order_by使用特定参数执行对象排序。
+# 以update_time排序（正序） MyModel.objects.order_by(&amp;#39;update_time&amp;#39;)  # 以update_time排序（逆序） MyModel.objects.order_by(&amp;#39;-update_time&amp;#39;)  # 检索最新修改的10个对象 MyModel.objects.order_by(&amp;#39;-update_time&amp;#39;)[:10] 处理异常 #  当使用get查找对象不存在时，会出发DoesNotExist异常
+try:  md = MyModel.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/template/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/template/</guid>
+      <description>常用模板语法 #  include #  include就是引入其他文件内容，把网页中的公共部分拿出来，重复利用，方便改动。
+&amp;lt;!-- 引入广告页面 --&amp;gt; {% include &amp;#39;ad.html&amp;#39; %} 传递变量 #  # views.py  def homepage(request):  title = &amp;#34;my site&amp;#34;  return render(request, &amp;#39;home.html&amp;#39;, {&amp;#39;title&amp;#39;:title})   # 模板中使用homepage.html # &amp;lt;p&amp;gt;{{ title }}&amp;lt;/p&amp;gt; 变量作为标签属性 #  可以直接使用，如下的变量month_str
+&amp;lt;input class=&amp;#34;diary-month-picker&amp;#34; type=&amp;#34;text&amp;#34; id=&amp;#34;inputDate&amp;#34; placeholder=&amp;#34;选择月份&amp;#34; value=&amp;#34;{{ month_str }}&amp;#34;&amp;gt; 数组遍历 #  # views.py </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/urls/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/urls/</guid>
+      <description>URL调度器 #  在Django中urls.py文件定义了url地址到视图的映射关系。本文介绍常见的url定义方式和注意问题
+###一个简单的例子
+# urls.py from django.urls import path, re_path  urlpatterns = [  # 匹配绝对地址  path(&amp;#39;articles/2003/&amp;#39;, views.special_case_2003),   # 传递参数  path(&amp;#39;detail/&amp;lt;int:year&amp;gt;/&amp;#39;, views.blog_detail),   # 使用正则  re_path(r&amp;#39;markdown/detail/*&amp;#39;, md_view.md_detail, name=&amp;#39;md_wiki_detail&amp;#39;), ]  # view.py def blog_detail(request, wid):  return HttpResponse(&amp;#34;hello world {}&amp;#34;.format(wid)) </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/views/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/views/</guid>
+      <description>Views基础操作 #  将view拆分为多个文件 #  新建views包，将原有views.py文件移动到views包中（注意改名），下面是使用示例
+# 目录结构 &amp;#34;&amp;#34;&amp;#34; - views - - __init__.py - - base_views.py - urls.py ... &amp;#34;&amp;#34;&amp;#34; # __init__.py from .base_views import *  # urls.py from .views import base_view urlpatterns = [  path(&amp;#39;&amp;#39;, base_view.wiki_home, name=&amp;#39;wiki_home&amp;#39;), ] </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Django RUSTApi 开发 #  Django实现Post请求 #  以下是在view中添加一个post请求的完整示例
+# views.py from django.http import HttpResponse, JsonResponse from django.views.decorators.csrf import csrf_exempt  # 如果需要取消该请求的CSRF验证,否则单独请求时会返回403 @csrf_exempt def markdown_wiki_update(request):  # 1. 非post请求直接返回  if request.method != &#39;POST&#39;:  return JsonResponse(RES_JSON_DICT)   # 2. 解析json形式的body  try:  json_body = json.loads(request.body)  except Exception as e:  print(&#39;Reason:&#39;, e)  return JsonResponse(RES_JSON_DICT)   # 3. 数据更新操作  # ...   # 4.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Django RUSTApi 开发 #  Django实现Post请求 #  以下是在view中添加一个post请求的完整示例
+# views.py from django.http import HttpResponse, JsonResponse from django.views.decorators.csrf import csrf_exempt  # 如果需要取消该请求的CSRF验证,否则单独请求时会返回403 @csrf_exempt def markdown_wiki_update(request):  # 1. 非post请求直接返回  if request.method != &#39;POST&#39;:  return JsonResponse(RES_JSON_DICT)   # 2. 解析json形式的body  try:  json_body = json.loads(request.body)  except Exception as e:  print(&#39;Reason:&#39;, e)  return JsonResponse(RES_JSON_DICT)   # 3. 数据更新操作  # ...   # 4." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.page3app.com/docs/category/djiango/django_post/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Django Post | cleinTTech</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.c58292d36b18b675680ab9baea2029204537b839ea72f258746ec0f32ce8d6c8.css" integrity="sha256-xYKS02sYtnVoCrm66iApIEU3uDnqcvJYdG7A8yzo1sg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.770342046ee92ec1ed875089914c20cc7d62a7b2b6a45a74042fd5ef6e2cdf34.js" integrity="sha256-dwNCBG7pLsHth1CJkUwgzH1ip7K2pFp0BC/V724s3zQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>cleinTTech</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>分类</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="toggle"  />
+    <label for="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="flex justify-between">
+      <a role="button" class="">Css</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/01-flex%E5%B8%83%E5%B1%80/" class="">Flex弹性布局</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-first-page/" class="">02 First Page</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-page-2/" class="">02 Page 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/04-second-page/" class="">04 Second Page</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cff8620492641e1d4b90041156dec6ef" class="toggle" checked />
+    <label for="section-cff8620492641e1d4b90041156dec6ef" class="flex justify-between">
+      <a role="button" class="">Djiango</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_csrf/" class="">Django Csrf</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_post/" class="active">Django Post</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_backup/" class="">Model Backup</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_filter/" class="">Model Filter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/template/" class="">Template</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/urls/" class="">Urls</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/views/" class="">Views</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4ce87f3fa13c1f6413535fcc61462ded" class="toggle"  />
+    <label for="section-4ce87f3fa13c1f6413535fcc61462ded" class="flex justify-between">
+      <a role="button" class="">Interview</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0218_swift_interv_1/" class="">0218 Swift Interv 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0219_swift_interv_2/" class="">0219 Swift Interv 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/1_base_1/" class="">1 Base 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/2_data_2_access_control/" class="">2 Data 2 Access Control</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kadun/" class="">Kadun</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kvo_kvc/" class="">Kvo Kvc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/object_1/" class="">Object 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/pod_01/" class="">Pod 01</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4dcc57394df1483745561b76c00a9c84" class="toggle"  />
+    <label for="section-4dcc57394df1483745561b76c00a9c84" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_list/" class="">Py List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_try_catch/" class="">Py Try Catch</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>编年史</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b96a102071fe86f4e0815b916fab0dd" class="toggle"  />
+    <label for="section-7b96a102071fe86f4e0815b916fab0dd" class="flex justify-between">
+      <a role="button" class="">2022年</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2208/" class="">8月</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2209/" class="">9月</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="toggle"  />
+    <label for="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="flex justify-between">
+      <a role="button" class="">Collapsed</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/" class="">3rd Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        博客
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Django Post</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#django-rustapi-开发">Django RUSTApi 开发</a>
+      <ul>
+        <li><a href="#django实现post请求">Django实现Post请求</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="django-rustapi-开发">
+  Django RUSTApi 开发
+  <a class="anchor" href="#django-rustapi-%e5%bc%80%e5%8f%91">#</a>
+</h2>
+<h3 id="django实现post请求">
+  Django实现Post请求
+  <a class="anchor" href="#django%e5%ae%9e%e7%8e%b0post%e8%af%b7%e6%b1%82">#</a>
+</h3>
+<p>以下是在view中添加一个post请求的完整示例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># views.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse, JsonResponse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.views.decorators.csrf <span style="color:#f92672">import</span> csrf_exempt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果需要取消该请求的CSRF验证,否则单独请求时会返回403</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@csrf_exempt</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">markdown_wiki_update</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 1. 非post请求直接返回</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;POST&#39;</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JsonResponse(RES_JSON_DICT)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 2. 解析json形式的body</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        json_body <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(request<span style="color:#f92672">.</span>body)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#39;Reason:&#39;</span>, e)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JsonResponse(RES_JSON_DICT)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 3. 数据更新操作</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 4. 构建返回对象</span>
+</span></span><span style="display:flex;"><span>    resp <span style="color:#f92672">=</span> RES_JSON_DICT
+</span></span><span style="display:flex;"><span>    resp[RESP_STATUS] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;success&#39;</span>
+</span></span><span style="display:flex;"><span>    resp[RESP_MSG] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;update success&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 5. 返回json信息</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> JsonResponse(resp)
+</span></span></code></pre></div><h4 id="使用requests发起post请求">
+  使用requests发起post请求
+  <a class="anchor" href="#%e4%bd%bf%e7%94%a8requests%e5%8f%91%e8%b5%b7post%e8%af%b7%e6%b1%82">#</a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests<span style="color:#f92672">,</span> json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>req_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;...&#39;</span>
+</span></span><span style="display:flex;"><span>json_body <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps({<span style="color:#e6db74">&#34;data&#34;</span>: infos})
+</span></span><span style="display:flex;"><span>resp <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(req_url, data<span style="color:#f92672">=</span>json_body)
+</span></span><span style="display:flex;"><span>json_resp <span style="color:#f92672">=</span> resp<span style="color:#f92672">.</span>json()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> json_resp[<span style="color:#e6db74">&#34;status&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;success&#39;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#django-rustapi-开发">Django RUSTApi 开发</a>
+      <ul>
+        <li><a href="#django实现post请求">Django实现Post请求</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

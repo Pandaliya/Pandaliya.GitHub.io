@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Django csrf防御机制 #  csrf（跨站请求伪造）攻击介绍 #  跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并执行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去执行。
+这利用了web中用户身份验证的一个漏洞：简单的身份验证只能保证请求是发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。
+一个例子
+假如一家银行用以执行转账操作的URL地址如下： https://bank.example.com/withdraw?account=AccoutName&amp;amount=1000&amp;for=PayeeName
+那么，一个恶意攻击者可以在另一个网站上放置如下代码： &lt;img src=&quot;https://bank.example.com/withdraw?account=Alice&amp;amount=1000&amp;for=Badman&quot; /&gt;
+如果有账户名为Alice的用户访问了恶意站点，而她之前刚访问过银行不久，登录信息尚未过期，那么她就会损失1000资金。
+透过例子能够看出，攻击者并不能通过CSRF攻击来直接获取用户的账户控制权，也不能直接窃取用户的任何信息。他们能做到的，是欺骗用户的浏览器，让其以用户的名义执行操作。
+Django 防御 #  在客户端页面上添加csrftoken, 服务器端进行验证，服务器端验证的工作通过&rsquo;django.middleware.csrf.CsrfViewMiddleware&rsquo;这个中间层来完成。
+&hellip;待续
+Tips #  如何关闭验证
+在视图函数中添加csrf_exempt装饰
+from django.views.decorators.csrf import csrf_exempt  @csrf_exempt def post_data(request):  pass 在urlconf中配置
+from django.views.decorators.csrf import csrf_exempt urlpatterns = [  url(r&#39;^post/get_data/$&#39;, csrf_exempt(post_data), name=&#39;post_data&#39;),  ] ">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Django csrf防御机制 #  csrf（跨站请求伪造）攻击介绍 #  跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并执行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去执行。
+这利用了web中用户身份验证的一个漏洞：简单的身份验证只能保证请求是发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。
+一个例子
+假如一家银行用以执行转账操作的URL地址如下： https://bank.example.com/withdraw?account=AccoutName&amp;amount=1000&amp;for=PayeeName
+那么，一个恶意攻击者可以在另一个网站上放置如下代码： &lt;img src=&quot;https://bank.example.com/withdraw?account=Alice&amp;amount=1000&amp;for=Badman&quot; /&gt;
+如果有账户名为Alice的用户访问了恶意站点，而她之前刚访问过银行不久，登录信息尚未过期，那么她就会损失1000资金。
+透过例子能够看出，攻击者并不能通过CSRF攻击来直接获取用户的账户控制权，也不能直接窃取用户的任何信息。他们能做到的，是欺骗用户的浏览器，让其以用户的名义执行操作。
+Django 防御 #  在客户端页面上添加csrftoken, 服务器端进行验证，服务器端验证的工作通过&rsquo;django.middleware.csrf.CsrfViewMiddleware&rsquo;这个中间层来完成。
+&hellip;待续
+Tips #  如何关闭验证
+在视图函数中添加csrf_exempt装饰
+from django.views.decorators.csrf import csrf_exempt  @csrf_exempt def post_data(request):  pass 在urlconf中配置
+from django.views.decorators.csrf import csrf_exempt urlpatterns = [  url(r&#39;^post/get_data/$&#39;, csrf_exempt(post_data), name=&#39;post_data&#39;),  ] " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.page3app.com/docs/category/djiango/django_csrf/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Django Csrf | cleinTTech</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.c58292d36b18b675680ab9baea2029204537b839ea72f258746ec0f32ce8d6c8.css" integrity="sha256-xYKS02sYtnVoCrm66iApIEU3uDnqcvJYdG7A8yzo1sg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.770342046ee92ec1ed875089914c20cc7d62a7b2b6a45a74042fd5ef6e2cdf34.js" integrity="sha256-dwNCBG7pLsHth1CJkUwgzH1ip7K2pFp0BC/V724s3zQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>cleinTTech</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>分类</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="toggle"  />
+    <label for="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="flex justify-between">
+      <a role="button" class="">Css</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/01-flex%E5%B8%83%E5%B1%80/" class="">Flex弹性布局</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-first-page/" class="">02 First Page</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-page-2/" class="">02 Page 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/04-second-page/" class="">04 Second Page</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cff8620492641e1d4b90041156dec6ef" class="toggle" checked />
+    <label for="section-cff8620492641e1d4b90041156dec6ef" class="flex justify-between">
+      <a role="button" class="">Djiango</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_csrf/" class="active">Django Csrf</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_post/" class="">Django Post</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_backup/" class="">Model Backup</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_filter/" class="">Model Filter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/template/" class="">Template</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/urls/" class="">Urls</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/views/" class="">Views</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4ce87f3fa13c1f6413535fcc61462ded" class="toggle"  />
+    <label for="section-4ce87f3fa13c1f6413535fcc61462ded" class="flex justify-between">
+      <a role="button" class="">Interview</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0218_swift_interv_1/" class="">0218 Swift Interv 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0219_swift_interv_2/" class="">0219 Swift Interv 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/1_base_1/" class="">1 Base 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/2_data_2_access_control/" class="">2 Data 2 Access Control</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kadun/" class="">Kadun</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kvo_kvc/" class="">Kvo Kvc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/object_1/" class="">Object 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/pod_01/" class="">Pod 01</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4dcc57394df1483745561b76c00a9c84" class="toggle"  />
+    <label for="section-4dcc57394df1483745561b76c00a9c84" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_list/" class="">Py List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_try_catch/" class="">Py Try Catch</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>编年史</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b96a102071fe86f4e0815b916fab0dd" class="toggle"  />
+    <label for="section-7b96a102071fe86f4e0815b916fab0dd" class="flex justify-between">
+      <a role="button" class="">2022年</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2208/" class="">8月</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2209/" class="">9月</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="toggle"  />
+    <label for="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="flex justify-between">
+      <a role="button" class="">Collapsed</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/" class="">3rd Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        博客
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Django Csrf</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#django-csrf防御机制">Django csrf防御机制</a>
+      <ul>
+        <li><a href="#csrf跨站请求伪造攻击介绍">csrf（跨站请求伪造）攻击介绍</a></li>
+        <li><a href="#django-防御">Django 防御</a></li>
+        <li><a href="#tips">Tips</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="django-csrf防御机制">
+  Django csrf防御机制
+  <a class="anchor" href="#django-csrf%e9%98%b2%e5%be%a1%e6%9c%ba%e5%88%b6">#</a>
+</h2>
+<h3 id="csrf跨站请求伪造攻击介绍">
+  csrf（跨站请求伪造）攻击介绍
+  <a class="anchor" href="#csrf%e8%b7%a8%e7%ab%99%e8%af%b7%e6%b1%82%e4%bc%aa%e9%80%a0%e6%94%bb%e5%87%bb%e4%bb%8b%e7%bb%8d">#</a>
+</h3>
+<p>跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并执行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去执行。</p>
+<p>这利用了web中用户身份验证的一个漏洞：简单的身份验证只能保证请求是发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。</p>
+<p><strong>一个例子</strong></p>
+<p>假如一家银行用以执行转账操作的URL地址如下： <code>https://bank.example.com/withdraw?account=AccoutName&amp;amount=1000&amp;for=PayeeName</code></p>
+<p>那么，一个恶意攻击者可以在另一个网站上放置如下代码： <code>&lt;img src=&quot;https://bank.example.com/withdraw?account=Alice&amp;amount=1000&amp;for=Badman&quot; /&gt;</code></p>
+<p>如果有账户名为Alice的用户访问了恶意站点，而她之前刚访问过银行不久，登录信息尚未过期，那么她就会损失1000资金。</p>
+<p>透过例子能够看出，攻击者并不能通过CSRF攻击来直接获取用户的账户控制权，也不能直接窃取用户的任何信息。他们能做到的，是欺骗用户的浏览器，让其以用户的名义执行操作。</p>
+<h3 id="django-防御">
+  Django 防御
+  <a class="anchor" href="#django-%e9%98%b2%e5%be%a1">#</a>
+</h3>
+<p>在客户端页面上添加csrftoken, 服务器端进行验证，服务器端验证的工作通过&rsquo;django.middleware.csrf.CsrfViewMiddleware&rsquo;这个中间层来完成。</p>
+<p>&hellip;待续</p>
+<h3 id="tips">
+  Tips
+  <a class="anchor" href="#tips">#</a>
+</h3>
+<p><strong>如何关闭验证</strong></p>
+<p>在视图函数中添加csrf_exempt装饰</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.views.decorators.csrf <span style="color:#f92672">import</span> csrf_exempt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@csrf_exempt</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post_data</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p>在urlconf中配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.views.decorators.csrf <span style="color:#f92672">import</span> csrf_exempt
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    url(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^post/get_data/$&#39;</span>, csrf_exempt(post_data), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;post_data&#39;</span>),
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#django-csrf防御机制">Django csrf防御机制</a>
+      <ul>
+        <li><a href="#csrf跨站请求伪造攻击介绍">csrf（跨站请求伪造）攻击介绍</a></li>
+        <li><a href="#django-防御">Django 防御</a></li>
+        <li><a href="#tips">Tips</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

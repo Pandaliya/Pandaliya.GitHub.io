@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="1 OC对象的本质 #  我们平时编写的OC代码，底层实现是C/C&#43;&#43;代码。OC中的对象是基于C/C&#43;&#43;中的结构体实现的。
+1.1 将OC代码转成C/C&#43;&#43;代码 #  使用clang的rewrite命令可以将OC转换成C&#43;&#43;代码
+# 直接生成cpp代码（不推荐）   # 指定平台(iOS arm64) xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o main-arm64.cpp  ps: 安装插件goto shell 可以很方便的在当前位置打开终端
+ 1.2 NSObject的本质 #  分析C&#43;&#43;代码，研究对象本质
+struct NSObject_IMPL {  Class isa; // 64位（8个字节） };  // 其中Class是一个结构体指针 16个字节 #  使用class_getInstanceSize()函数获取对象占用的内存
+// 获取NSObject类的实例对象的大小 // 查看源码可知，它返回的是成员变量所占的空间大小 // 返回 8 class_getInstanceSize([NSObject class])  // 获取obj指针所指向内存的大小 // 需要先引入：#import &lt;malloc/malloc.h&gt; // 返回 16 malloc_size((__bridge const void *)obj) 回答面试题 #   一个NSObject对象占多少内存？">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="1 OC对象的本质 #  我们平时编写的OC代码，底层实现是C/C&#43;&#43;代码。OC中的对象是基于C/C&#43;&#43;中的结构体实现的。
+1.1 将OC代码转成C/C&#43;&#43;代码 #  使用clang的rewrite命令可以将OC转换成C&#43;&#43;代码
+# 直接生成cpp代码（不推荐）   # 指定平台(iOS arm64) xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o main-arm64.cpp  ps: 安装插件goto shell 可以很方便的在当前位置打开终端
+ 1.2 NSObject的本质 #  分析C&#43;&#43;代码，研究对象本质
+struct NSObject_IMPL {  Class isa; // 64位（8个字节） };  // 其中Class是一个结构体指针 16个字节 #  使用class_getInstanceSize()函数获取对象占用的内存
+// 获取NSObject类的实例对象的大小 // 查看源码可知，它返回的是成员变量所占的空间大小 // 返回 8 class_getInstanceSize([NSObject class])  // 获取obj指针所指向内存的大小 // 需要先引入：#import &lt;malloc/malloc.h&gt; // 返回 16 malloc_size((__bridge const void *)obj) 回答面试题 #   一个NSObject对象占多少内存？" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.page3app.com/docs/category/interview/object_1/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Object 1 | cleinTTech</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.c58292d36b18b675680ab9baea2029204537b839ea72f258746ec0f32ce8d6c8.css" integrity="sha256-xYKS02sYtnVoCrm66iApIEU3uDnqcvJYdG7A8yzo1sg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.770342046ee92ec1ed875089914c20cc7d62a7b2b6a45a74042fd5ef6e2cdf34.js" integrity="sha256-dwNCBG7pLsHth1CJkUwgzH1ip7K2pFp0BC/V724s3zQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>cleinTTech</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>分类</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="toggle"  />
+    <label for="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="flex justify-between">
+      <a role="button" class="">Css</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/01-flex%E5%B8%83%E5%B1%80/" class="">Flex弹性布局</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-first-page/" class="">02 First Page</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-page-2/" class="">02 Page 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/04-second-page/" class="">04 Second Page</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cff8620492641e1d4b90041156dec6ef" class="toggle"  />
+    <label for="section-cff8620492641e1d4b90041156dec6ef" class="flex justify-between">
+      <a role="button" class="">Djiango</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_csrf/" class="">Django Csrf</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_post/" class="">Django Post</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_backup/" class="">Model Backup</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_filter/" class="">Model Filter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/template/" class="">Template</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/urls/" class="">Urls</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/views/" class="">Views</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4ce87f3fa13c1f6413535fcc61462ded" class="toggle" checked />
+    <label for="section-4ce87f3fa13c1f6413535fcc61462ded" class="flex justify-between">
+      <a role="button" class="">Interview</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0218_swift_interv_1/" class="">0218 Swift Interv 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0219_swift_interv_2/" class="">0219 Swift Interv 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/1_base_1/" class="">1 Base 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/2_data_2_access_control/" class="">2 Data 2 Access Control</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kadun/" class="">Kadun</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kvo_kvc/" class="">Kvo Kvc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/object_1/" class="active">Object 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/pod_01/" class="">Pod 01</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4dcc57394df1483745561b76c00a9c84" class="toggle"  />
+    <label for="section-4dcc57394df1483745561b76c00a9c84" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_list/" class="">Py List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_try_catch/" class="">Py Try Catch</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>编年史</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b96a102071fe86f4e0815b916fab0dd" class="toggle"  />
+    <label for="section-7b96a102071fe86f4e0815b916fab0dd" class="flex justify-between">
+      <a role="button" class="">2022年</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2208/" class="">8月</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2209/" class="">9月</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="toggle"  />
+    <label for="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="flex justify-between">
+      <a role="button" class="">Collapsed</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/" class="">3rd Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        博客
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Object 1</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-oc对象的本质">1 OC对象的本质</a>
+      <ul>
+        <li><a href="#11-将oc代码转成cc代码">1.1 将OC代码转成C/C++代码</a></li>
+        <li><a href="#12-nsobject的本质">1.2 NSObject的本质</a></li>
+        <li><a href="#13-oc对象的分类">1.3 OC对象的分类</a></li>
+        <li><a href="#14-isa和superclass">1.4 isa和superclass</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="1-oc对象的本质">
+  1 OC对象的本质
+  <a class="anchor" href="#1-oc%e5%af%b9%e8%b1%a1%e7%9a%84%e6%9c%ac%e8%b4%a8">#</a>
+</h2>
+<p>我们平时编写的OC代码，底层实现是C/C++代码。OC中的对象是基于C/C++中的结构体实现的。</p>
+<h3 id="11-将oc代码转成cc代码">
+  1.1 将OC代码转成C/C++代码
+  <a class="anchor" href="#11-%e5%b0%86oc%e4%bb%a3%e7%a0%81%e8%bd%ac%e6%88%90cc%e4%bb%a3%e7%a0%81">#</a>
+</h3>
+<p>使用clang的rewrite命令可以将OC转换成C++代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 直接生成cpp代码（不推荐）</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 指定平台(iOS arm64)</span>
+</span></span><span style="display:flex;"><span>xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o main-arm64.cpp
+</span></span></code></pre></div><blockquote>
+<p>ps: 安装插件goto shell 可以很方便的在当前位置打开终端</p>
+</blockquote>
+<h3 id="12-nsobject的本质">
+  1.2 NSObject的本质
+  <a class="anchor" href="#12-nsobject%e7%9a%84%e6%9c%ac%e8%b4%a8">#</a>
+</h3>
+<p>分析C++代码，研究对象本质</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">NSObject_IMPL</span> {
+</span></span><span style="display:flex;"><span>    Class isa; <span style="color:#75715e">// 64位（8个字节）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 其中Class是一个结构体指针
+</span></span></span></code></pre></div><h4 id="16个字节">
+  16个字节
+  <a class="anchor" href="#16%e4%b8%aa%e5%ad%97%e8%8a%82">#</a>
+</h4>
+<p>使用class_getInstanceSize()函数获取对象占用的内存</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#75715e">// 获取NSObject类的实例对象的大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 查看源码可知，它返回的是成员变量所占的空间大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 返回 8
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>class_getInstanceSize([NSObject <span style="color:#66d9ef">class</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取obj指针所指向内存的大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 需要先引入：#import &lt;malloc/malloc.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 返回 16
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>malloc_size((<span style="color:#66d9ef">__bridge</span> <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)obj)
+</span></span></code></pre></div><h4 id="回答面试题">
+  回答面试题
+  <a class="anchor" href="#%e5%9b%9e%e7%ad%94%e9%9d%a2%e8%af%95%e9%a2%98">#</a>
+</h4>
+<blockquote>
+<p>一个NSObject对象占多少内存？</p>
+</blockquote>
+<ol>
+<li>系统分配了16个字节给NSObject对象（通过malloc_size函数获得）</li>
+<li>但NSObject对象内部只使用了8个字节的空间</li>
+</ol>
+<h4 id="查看对象的内存">
+  查看对象的内存
+  <a class="anchor" href="#%e6%9f%a5%e7%9c%8b%e5%af%b9%e8%b1%a1%e7%9a%84%e5%86%85%e5%ad%98">#</a>
+</h4>
+<p>通过Xcode工具：Debug-&gt; Debug Workfllow -&gt; View Memory（shift+command+m）可以实时查看内存数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 断点后可以使用如下命令操作内存</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 读内存</span>
+</span></span><span style="display:flex;"><span>memory read 0x10dda990
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">[</span>内存地址<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 写内存</span>
+</span></span><span style="display:flex;"><span>memory write <span style="color:#f92672">[</span>内存地址<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>数值<span style="color:#f92672">]</span>
+</span></span></code></pre></div><h4 id="内存布局">
+  内存布局
+  <a class="anchor" href="#%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80">#</a>
+</h4>
+<p>结构体第一个成员的地址值就是结构体的地址值（同理，数组第一个元素的地址值就是数组的地址值）；OC对象的
+布局和结构体的布局相同的。</p>
+<blockquote>
+<p>PS: 大端：从低地址开始读（符合阅读习惯），小端：从高地址开始读（地址高低和数据位权一致）</p>
+</blockquote>
+<h4 id="继承关系的内存布局">
+  继承关系的内存布局
+  <a class="anchor" href="#%e7%bb%a7%e6%89%bf%e5%85%b3%e7%b3%bb%e7%9a%84%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80">#</a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#75715e">// 面试题: 有如下继承关系，A和B的实例对象占多少内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">A</span>: <span style="color:#a6e22e">NSObject</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> _a;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@interface</span> <span style="color:#a6e22e">B</span>: <span style="color:#a6e22e">NSObject</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> _b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">@end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 结构体内存对齐：结构体的大小必须是最大成员大小的倍数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">struct A_IMPL {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    struct NSObject_IMPL NSObject_VARS;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    int _a;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">} 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">struct A_IMPL {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    struct A_IMPL NSObject_VARS;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    int _b;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">}
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">A,B都是占用16个字节  size(a) = 8 + 4 = 12 =&gt; 16; A中会有4个字节为使用的地址，B对象会将_b成员放入A对象中的空白地址。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span></code></pre></div><h4 id="属性和方法">
+  属性和方法
+  <a class="anchor" href="#%e5%b1%9e%e6%80%a7%e5%92%8c%e6%96%b9%e6%b3%95">#</a>
+</h4>
+<p>我们创建出的实例对象只包含成员变量，不保存方法。方法其实是保存在类对象中。</p>
+<h4 id="内存分配的注意点">
+  内存分配的注意点
+  <a class="anchor" href="#%e5%86%85%e5%ad%98%e5%88%86%e9%85%8d%e7%9a%84%e6%b3%a8%e6%84%8f%e7%82%b9">#</a>
+</h4>
+<p>iOS内存实际分配时也有对齐的概念。具体的实现在libmalloc库中的malloc_zone_calloc函数中；系统把内存也分为不同级别的几个桶，具体数值如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#75715e">// 小内存（16的倍数，最大256个字节）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define NANO_MAX_SIZE 256; </span><span style="color:#75715e">/*Bucket Sized {16, 32, 48, 64, 80, 96, 112 ...} */</span><span style="color:#75715e">
+</span></span></span></code></pre></div><h4 id="sizeof">
+  sizeof
+  <a class="anchor" href="#sizeof">#</a>
+</h4>
+<p>sizeof是运算符；在编译的时候就可以确定值，编译时会转换成常数。</p>
+<h3 id="13-oc对象的分类">
+  1.3 OC对象的分类
+  <a class="anchor" href="#13-oc%e5%af%b9%e8%b1%a1%e7%9a%84%e5%88%86%e7%b1%bb">#</a>
+</h3>
+<p>OC中的对象分为三种：</p>
+<ol>
+<li>实例对象</li>
+<li>类对象</li>
+<li>元类对象</li>
+</ol>
+<h4 id="实例对象">
+  实例对象
+  <a class="anchor" href="#%e5%ae%9e%e4%be%8b%e5%af%b9%e8%b1%a1">#</a>
+</h4>
+<p>实例对象中存储的信息主要就是成员变量；每个实例对象中都有一个成员变量isa。并且isa肯定在结构体的最前面；所以对象的地址也就是isa指针的地址。</p>
+<blockquote>
+<p>扩展：为什么每个实例对象都有isa？ 因为每个类都是继承NSObject，NSObject对象有isa成员</p>
+</blockquote>
+<h4 id="类对象">
+  类对象
+  <a class="anchor" href="#%e7%b1%bb%e5%af%b9%e8%b1%a1">#</a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C" data-lang="C"><span style="display:flex;"><span><span style="color:#75715e">// 获取类对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 注意：class方法一直返回的就是类对象。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>objc <span style="color:#f92672">=</span> [NSObject class]
+</span></span></code></pre></div><p>类对象存储的信息：</p>
+<ol>
+<li>isa指针</li>
+<li>superclass指针</li>
+<li>类的属性信息（@property）；类的对象方法</li>
+<li>类的协议信息（protocol）；类的成员变量描述信息信息（ivar）</li>
+</ol>
+<h4 id="元类对象">
+  元类对象
+  <a class="anchor" href="#%e5%85%83%e7%b1%bb%e5%af%b9%e8%b1%a1">#</a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#75715e">// 获取元类对象的方式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Class</span> cls <span style="color:#f92672">=</span> objc_getClass([NSObject <span style="color:#66d9ef">class</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 判断是否为元类对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>class_isMetaClass(cls)
+</span></span></code></pre></div><p>元类对象和类对象的内存结构是一样的，都是Class类型。类对象的存储信息：</p>
+<ol>
+<li>isa指针</li>
+<li>superclass指针</li>
+<li>类方法（+方法）</li>
+</ol>
+<h4 id="object_getclass和objc_getclass">
+  object_getClass和objc_getClass
+  <a class="anchor" href="#object_getclass%e5%92%8cobjc_getclass">#</a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">如果obj是实例对象，返回class对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">如果obj是类对象，返回元类对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">如果obj是元类对象，返回基类（NSObject）的元类对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">Class</span> <span style="color:#a6e22e">object_getClass</span>(<span style="color:#66d9ef">id</span> obj) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (obj) <span style="color:#66d9ef">return</span> obj<span style="color:#f92672">-&gt;</span>getIsa();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> Nil;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 根据类的名称字符串返回类对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">Class</span> <span style="color:#a6e22e">objc_getClass</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>aClassName) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>aClassName) <span style="color:#66d9ef">return</span> Nil;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> look_up_class(aClassName, NO, YES)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="14-isa和superclass">
+  1.4 isa和superclass
+  <a class="anchor" href="#14-isa%e5%92%8csuperclass">#</a>
+</h3>
+<p>面试题：</p>
+<ol>
+<li>对象的isa指针指向哪里？</li>
+<li>对象的类信息存放在哪里？</li>
+<li>方法的调用过程？</li>
+</ol>
+<p>实例方法的调用过程：通过实例对象的isa找到类对象，再从类对象中找到方法实现调用</p>
+<h4 id="superclass">
+  superclass
+  <a class="anchor" href="#superclass">#</a>
+</h4>
+<p>类对象superclass指针指向父类的类对象；
+元类对象的superclass指针指向父类的元类对象</p>
+<h4 id="isa的细节">
+  isa的细节
+  <a class="anchor" href="#isa%e7%9a%84%e7%bb%86%e8%8a%82">#</a>
+</h4>
+<p><strong>类对象的地址和实例对象的isa地址不同？</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 16进制打印isa地址(person是一个实例对象)</span>
+</span></span><span style="display:flex;"><span>p/x <span style="color:#f92672">(</span>long<span style="color:#f92672">)</span>obj-&gt;isa
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果直接打印会返回对象名称：NSObject</span>
+</span></span><span style="display:flex;"><span>p obj-&gt;isa
+</span></span></code></pre></div><p>解释：从64位开始，isa需要进行一次运算才能得到类对象地址：isa&amp;ISA_MASK</p>
+<h4 id="oc20-class的数据结构">
+  OC2.0 Class的数据结构
+  <a class="anchor" href="#oc20-class%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84">#</a>
+</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">objc_object</span> {
+</span></span><span style="display:flex;"><span>    Class isa
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">objc_class</span><span style="color:#f92672">:</span> objc_object {
+</span></span><span style="display:flex;"><span>    Class superclass;
+</span></span><span style="display:flex;"><span>    cache_t cache; <span style="color:#75715e">// 方法缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    class_data_bits_t bits; <span style="color:#75715e">// 保存具体的类信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// bits &amp; FAST_DATA_MASK (面试时可以说时一个掩码)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">class_rw_t</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-oc对象的本质">1 OC对象的本质</a>
+      <ul>
+        <li><a href="#11-将oc代码转成cc代码">1.1 将OC代码转成C/C++代码</a></li>
+        <li><a href="#12-nsobject的本质">1.2 NSObject的本质</a></li>
+        <li><a href="#13-oc对象的分类">1.3 OC对象的分类</a></li>
+        <li><a href="#14-isa和superclass">1.4 isa和superclass</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

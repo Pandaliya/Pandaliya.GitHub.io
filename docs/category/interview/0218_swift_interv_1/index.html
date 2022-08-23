@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Swift面试刷题（一） #  swift基础面试题
+01 swift枚举的关联值和原始值怎么区分？ #  关联值：是指将枚举成员和其他类型的变量存储在一起 原始值：枚举成员可以使用相同类型的默认值预先绑定，这个默认值叫做原始值
+enum Date {  // 设置枚举成员关联值  case digit(year:Int, month:Int, day:Int)  case string(String) }  enum Grade: String {  case perfect = &#34;A&#34;  case great = &#34;B&#34;  // ... } 02 什么是延时存储属性？ #  使用lazy可以定义一个延时存储属性，在第一次使用时才进行初始化；
+使用lazy的注意点：
+ lazy必须是var属性 lazy线程不安全，多线程同时访问时，无法保证只初始化一次  // 定义lazy属性 class PicView {  lazy var image: Image = {  return Image(data:data)  } } 03 什么是运算符重载？ #  类、结构体、枚举可以为现有的运算符提供自定义实现">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Swift面试刷题（一） #  swift基础面试题
+01 swift枚举的关联值和原始值怎么区分？ #  关联值：是指将枚举成员和其他类型的变量存储在一起 原始值：枚举成员可以使用相同类型的默认值预先绑定，这个默认值叫做原始值
+enum Date {  // 设置枚举成员关联值  case digit(year:Int, month:Int, day:Int)  case string(String) }  enum Grade: String {  case perfect = &#34;A&#34;  case great = &#34;B&#34;  // ... } 02 什么是延时存储属性？ #  使用lazy可以定义一个延时存储属性，在第一次使用时才进行初始化；
+使用lazy的注意点：
+ lazy必须是var属性 lazy线程不安全，多线程同时访问时，无法保证只初始化一次  // 定义lazy属性 class PicView {  lazy var image: Image = {  return Image(data:data)  } } 03 什么是运算符重载？ #  类、结构体、枚举可以为现有的运算符提供自定义实现" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.page3app.com/docs/category/interview/0218_swift_interv_1/" /><meta property="article:section" content="docs" />
+
+
+
+<title>0218 Swift Interv 1 | cleinTTech</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.c58292d36b18b675680ab9baea2029204537b839ea72f258746ec0f32ce8d6c8.css" integrity="sha256-xYKS02sYtnVoCrm66iApIEU3uDnqcvJYdG7A8yzo1sg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.770342046ee92ec1ed875089914c20cc7d62a7b2b6a45a74042fd5ef6e2cdf34.js" integrity="sha256-dwNCBG7pLsHth1CJkUwgzH1ip7K2pFp0BC/V724s3zQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>cleinTTech</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>分类</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="toggle"  />
+    <label for="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="flex justify-between">
+      <a role="button" class="">Css</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/01-flex%E5%B8%83%E5%B1%80/" class="">Flex弹性布局</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-first-page/" class="">02 First Page</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-page-2/" class="">02 Page 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/04-second-page/" class="">04 Second Page</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cff8620492641e1d4b90041156dec6ef" class="toggle"  />
+    <label for="section-cff8620492641e1d4b90041156dec6ef" class="flex justify-between">
+      <a role="button" class="">Djiango</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_csrf/" class="">Django Csrf</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_post/" class="">Django Post</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_backup/" class="">Model Backup</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_filter/" class="">Model Filter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/template/" class="">Template</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/urls/" class="">Urls</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/views/" class="">Views</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4ce87f3fa13c1f6413535fcc61462ded" class="toggle" checked />
+    <label for="section-4ce87f3fa13c1f6413535fcc61462ded" class="flex justify-between">
+      <a role="button" class="">Interview</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0218_swift_interv_1/" class="active">0218 Swift Interv 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0219_swift_interv_2/" class="">0219 Swift Interv 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/1_base_1/" class="">1 Base 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/2_data_2_access_control/" class="">2 Data 2 Access Control</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kadun/" class="">Kadun</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kvo_kvc/" class="">Kvo Kvc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/object_1/" class="">Object 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/pod_01/" class="">Pod 01</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4dcc57394df1483745561b76c00a9c84" class="toggle"  />
+    <label for="section-4dcc57394df1483745561b76c00a9c84" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_list/" class="">Py List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_try_catch/" class="">Py Try Catch</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>编年史</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b96a102071fe86f4e0815b916fab0dd" class="toggle"  />
+    <label for="section-7b96a102071fe86f4e0815b916fab0dd" class="flex justify-between">
+      <a role="button" class="">2022年</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2208/" class="">8月</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2209/" class="">9月</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="toggle"  />
+    <label for="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="flex justify-between">
+      <a role="button" class="">Collapsed</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/" class="">3rd Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        博客
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>0218 Swift Interv 1</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#swift面试刷题一">Swift面试刷题（一）</a>
+      <ul>
+        <li><a href="#01-swift枚举的关联值和原始值怎么区分">01 swift枚举的关联值和原始值怎么区分？</a></li>
+        <li><a href="#02-什么是延时存储属性">02 什么是延时存储属性？</a></li>
+        <li><a href="#03-什么是运算符重载">03 什么是运算符重载？</a></li>
+        <li><a href="#04-定义静态方法时static和class的区别">04 定义静态方法时static和class的区别？</a></li>
+        <li><a href="#05-swift中如何定义下标">05 swift中如何定义下标？</a></li>
+        <li><a href="#06-说明swift中的初始化器">06 说明swift中的初始化器</a></li>
+        <li><a href="#07-swift和oc的初始化方法有什么不同">07 Swift和OC的初始化方法有什么不同？</a></li>
+        <li><a href="#08-swift有那些闭包">08 swift有那些闭包？</a></li>
+        <li><a href="#09-swift中如何使用单例">09 swift中如何使用单例</a></li>
+        <li><a href="#10-swift语法糖的本质实现原理">10 swift语法糖的本质（实现原理）</a></li>
+        <li><a href="#11-如何解决循环引用">11 如何解决循环引用</a></li>
+        <li><a href="#12-如何理解copy-on-write">12 如何理解copy-on-write?</a></li>
+        <li><a href="#13-swift为什么将stringarraydictionary设计为值类型">13 swift为什么将String/Array/Dictionary设计为值类型</a></li>
+        <li><a href="#14-什么属性观察">14 什么属性观察？</a></li>
+        <li><a href="#15-swift自省和oc有什么区别">15 swift自省和OC有什么区别？</a></li>
+        <li><a href="#16-swift中的扩展和oc的分类有什么不同">16 Swift中的扩展和OC的分类有什么不同？</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="swift面试刷题一">
+  Swift面试刷题（一）
+  <a class="anchor" href="#swift%e9%9d%a2%e8%af%95%e5%88%b7%e9%a2%98%e4%b8%80">#</a>
+</h2>
+<p>swift基础面试题</p>
+<h3 id="01-swift枚举的关联值和原始值怎么区分">
+  01 swift枚举的关联值和原始值怎么区分？
+  <a class="anchor" href="#01-swift%e6%9e%9a%e4%b8%be%e7%9a%84%e5%85%b3%e8%81%94%e5%80%bc%e5%92%8c%e5%8e%9f%e5%a7%8b%e5%80%bc%e6%80%8e%e4%b9%88%e5%8c%ba%e5%88%86">#</a>
+</h3>
+<p>关联值：是指将枚举成员和其他类型的变量存储在一起
+原始值：枚举成员可以使用相同类型的默认值预先绑定，这个默认值叫做原始值</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Date</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 设置枚举成员关联值</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> digit(year:Int, month:Int, day:Int)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> string(String)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Grade</span>: String {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> perfect = <span style="color:#e6db74">&#34;A&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> great = <span style="color:#e6db74">&#34;B&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="02-什么是延时存储属性">
+  02 什么是延时存储属性？
+  <a class="anchor" href="#02-%e4%bb%80%e4%b9%88%e6%98%af%e5%bb%b6%e6%97%b6%e5%ad%98%e5%82%a8%e5%b1%9e%e6%80%a7">#</a>
+</h3>
+<p>使用lazy可以定义一个延时存储属性，在第一次使用时才进行初始化；</p>
+<p>使用lazy的注意点：</p>
+<ol>
+<li>lazy必须是var属性</li>
+<li>lazy线程不安全，多线程同时访问时，无法保证只初始化一次</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-swift" data-lang="swift"><span style="display:flex;"><span><span style="color:#75715e">// 定义lazy属性</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PicView</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lazy</span> <span style="color:#66d9ef">var</span> image: Image = {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Image(data:data)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="03-什么是运算符重载">
+  03 什么是运算符重载？
+  <a class="anchor" href="#03-%e4%bb%80%e4%b9%88%e6%98%af%e8%bf%90%e7%ae%97%e7%ac%a6%e9%87%8d%e8%bd%bd">#</a>
+</h3>
+<p>类、结构体、枚举可以为现有的运算符提供自定义实现</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#75715e">// 代码示例</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> x: Int
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> y: Int
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">func</span> <span style="color:#f92672">+</span> (p: Point1, p2: Point) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Point(x: p1.x<span style="color:#f92672">+</span>p2.x, y: p1.y<span style="color:#f92672">+</span>p2.y)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="04-定义静态方法时static和class的区别">
+  04 定义静态方法时static和class的区别？
+  <a class="anchor" href="#04-%e5%ae%9a%e4%b9%89%e9%9d%99%e6%80%81%e6%96%b9%e6%b3%95%e6%97%b6static%e5%92%8cclass%e7%9a%84%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<p>static定义的方法不可以被子类覆写（override）；class则可以</p>
+<h3 id="05-swift中如何定义下标">
+  05 swift中如何定义下标？
+  <a class="anchor" href="#05-swift%e4%b8%ad%e5%a6%82%e4%bd%95%e5%ae%9a%e4%b9%89%e4%b8%8b%e6%a0%87">#</a>
+</h3>
+<p>在swift中可以使用subscript给任意类型（枚举，结构体，类）定义下标</p>
+<h3 id="06-说明swift中的初始化器">
+  06 说明swift中的初始化器
+  <a class="anchor" href="#06-%e8%af%b4%e6%98%8eswift%e4%b8%ad%e7%9a%84%e5%88%9d%e5%a7%8b%e5%8c%96%e5%99%a8">#</a>
+</h3>
+<p>类/结构体/枚举都可以定义初始化器，结构体有默认的初始化器。类有两种初始化器，分别为：指定初始化器和便捷初始化器（convenience init），规则如下。</p>
+<ol>
+<li>每个类至少有一个指定初始化器。</li>
+<li>指定初始化器必须调用父类的指定初始化器；便捷初始化必须调用当前类的另一个初始化器，且最终必须调用一个指定初始化器。</li>
+</ol>
+<h3 id="07-swift和oc的初始化方法有什么不同">
+  07 Swift和OC的初始化方法有什么不同？
+  <a class="anchor" href="#07-swift%e5%92%8coc%e7%9a%84%e5%88%9d%e5%a7%8b%e5%8c%96%e6%96%b9%e6%b3%95%e6%9c%89%e4%bb%80%e4%b9%88%e4%b8%8d%e5%90%8c">#</a>
+</h3>
+<ol>
+<li>swift的初始化方法更加严格，初始化方法必须保证所有非optional的成员都完成初始化；</li>
+<li>swift提供convenience（便捷）初始化器</li>
+</ol>
+<h3 id="08-swift有那些闭包">
+  08 swift有那些闭包？
+  <a class="anchor" href="#08-swift%e6%9c%89%e9%82%a3%e4%ba%9b%e9%97%ad%e5%8c%85">#</a>
+</h3>
+<p><strong>尾随闭包</strong></p>
+<p>尾随闭包是一个书写在函数括号后面的闭包表达式，如果需要将一个很长的闭包表达式作为函数的最后一个参数传递给函数，则可以将这个闭包替换为尾随闭包；</p>
+<p><strong>逃逸闭包和非逃逸闭包</strong></p>
+<p>当一个闭包作为参数传递到一个函数中，但这个闭包在函数返回还会被执行，就叫作闭包从函数中逃逸。可以添加@escaping关键字指明这是一个逃逸闭包。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#75715e">// 定义一个数组用于存储闭包类型</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> completionHandlers: [() -&gt; Void] = []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//  在方法中将闭包当做实际参数,存储到外部变量中</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">someFunctionWithEscapingClosure</span>(completionHandler: @escaping () -&gt; Void) {
+</span></span><span style="display:flex;"><span>    completionHandlers.append(completionHandler)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>自动闭包</strong></p>
+<p>自动闭包不接受任何参数，延迟求值，只有被调用时才返回被包装在其中的表达式的值。可以使用@autoclosure声明一个自动闭包参数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">getName</span>() -&gt; String{
+</span></span><span style="display:flex;"><span>    print(<span style="color:#66d9ef">#function</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;DKJone&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//@autoclosure</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">goodMooning</span>(morning:Bool ,who:<span style="color:#66d9ef">@autoclosure</span>() -&gt; String){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> morning {
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;Good morning, (who())&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>自动闭包有以下特性：</p>
+<ol>
+<li>@autoclosure 会自动将20封装成闭包 { 20 }</li>
+<li>@autoclosure 只支持 () -&gt; T格式的参数</li>
+<li>@autoclosure 并非只支持最后一个参数</li>
+<li>有无@autoclosure 会后构成函数重载</li>
+</ol>
+<blockquote>
+<p>函数重载：函数名相同，函数的参数个数或类型不同</p>
+</blockquote>
+<h3 id="09-swift中如何使用单例">
+  09 swift中如何使用单例
+  <a class="anchor" href="#09-swift%e4%b8%ad%e5%a6%82%e4%bd%95%e4%bd%bf%e7%94%a8%e5%8d%95%e4%be%8b">#</a>
+</h3>
+<p>使用静态let属性和private init来写单例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FileManager</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">let</span> shared = {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> FileManager
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="10-swift语法糖的本质实现原理">
+  10 swift语法糖的本质（实现原理）
+  <a class="anchor" href="#10-swift%e8%af%ad%e6%b3%95%e7%b3%96%e7%9a%84%e6%9c%ac%e8%b4%a8%e5%ae%9e%e7%8e%b0%e5%8e%9f%e7%90%86">#</a>
+</h3>
+<p><strong>语法糖：</strong> 是指计算机语言中添加某项特殊的语法，这种语法对语言本身功能没影响。但更方便编程者使用。增强代码可读性，简化代码。</p>
+<p>swift语法糖包括：</p>
+<ol>
+<li>Selector</li>
+<li>if let</li>
+<li>guard</li>
+<li>?(单问号) / ??(双问号：) /!(感叹号：强制解包)</li>
+</ol>
+<h3 id="11-如何解决循环引用">
+  11 如何解决循环引用
+  <a class="anchor" href="#11-%e5%a6%82%e4%bd%95%e8%a7%a3%e5%86%b3%e5%be%aa%e7%8e%af%e5%bc%95%e7%94%a8">#</a>
+</h3>
+<ol>
+<li>转换为值类型</li>
+<li>delegate或闭包使用weak或unowned属性</li>
+</ol>
+<h3 id="12-如何理解copy-on-write">
+  12 如何理解copy-on-write?
+  <a class="anchor" href="#12-%e5%a6%82%e4%bd%95%e7%90%86%e8%a7%a3copy-on-write">#</a>
+</h3>
+<p>值类型（如struct）在复制时，复制对象和原对象在实际内存中指向同一个对象（内存地址）。只有修改复制对象时，才会在内存中创建一个新对象。</p>
+<p>为提升性能。Struct，String，Array，Dictionary，Set都使用了cooy-on-write技术</p>
+<h3 id="13-swift为什么将stringarraydictionary设计为值类型">
+  13 swift为什么将String/Array/Dictionary设计为值类型
+  <a class="anchor" href="#13-swift%e4%b8%ba%e4%bb%80%e4%b9%88%e5%b0%86stringarraydictionary%e8%ae%be%e8%ae%a1%e4%b8%ba%e5%80%bc%e7%b1%bb%e5%9e%8b">#</a>
+</h3>
+<ol>
+<li>高效使用内存，值类型在栈上操作只是指针移动；引用类型在堆上</li>
+<li>线程安全，值类型赋值是深拷贝操作，会从新创建一个新的对象，不同线程上的操作不相互影响</li>
+</ol>
+<h3 id="14-什么属性观察">
+  14 什么属性观察？
+  <a class="anchor" href="#14-%e4%bb%80%e4%b9%88%e5%b1%9e%e6%80%a7%e8%a7%82%e5%af%9f">#</a>
+</h3>
+<p>属性观察：是指在当前类对特定的属性进行检测。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> title: String {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">willSet</span> {
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;willSet&#34;</span>, newValue)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">didSet</span> {
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;didSet&#34;</span>, oldValue, title)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>有如下特性：</p>
+<ol>
+<li>willSet会传递新值，默认叫做newValue</li>
+<li>didSet传递旧值</li>
+<li>初始化器中设置属性值不会触发willSet和didSet</li>
+</ol>
+<h3 id="15-swift自省和oc有什么区别">
+  15 swift自省和OC有什么区别？
+  <a class="anchor" href="#15-swift%e8%87%aa%e7%9c%81%e5%92%8coc%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab">#</a>
+</h3>
+<p>自省就是判断某一个对象是否属于某一个类型的操作；</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Objective-c" data-lang="Objective-c"><span style="display:flex;"><span>[obj isKindOfClass:[Object <span style="color:#66d9ef">class</span>]];
+</span></span><span style="display:flex;"><span>[obj isMemberOfClass:[Object <span style="color:#66d9ef">class</span>]];
+</span></span></code></pre></div><p>swift 使用is关键字</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Swift" data-lang="Swift"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (obj <span style="color:#66d9ef">is</span> ClassA) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="16-swift中的扩展和oc的分类有什么不同">
+  16 Swift中的扩展和OC的分类有什么不同？
+  <a class="anchor" href="#16-swift%e4%b8%ad%e7%9a%84%e6%89%a9%e5%b1%95%e5%92%8coc%e7%9a%84%e5%88%86%e7%b1%bb%e6%9c%89%e4%bb%80%e4%b9%88%e4%b8%8d%e5%90%8c">#</a>
+</h3>
+<ol>
+<li>扩展不能添加存储属性（会报编译错误）；分类可以通过运行时关联对象的形式添加属性</li>
+<li>Swift的扩展可以作用于协议，结构体或枚举；分类只能作用于类</li>
+</ol>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#swift面试刷题一">Swift面试刷题（一）</a>
+      <ul>
+        <li><a href="#01-swift枚举的关联值和原始值怎么区分">01 swift枚举的关联值和原始值怎么区分？</a></li>
+        <li><a href="#02-什么是延时存储属性">02 什么是延时存储属性？</a></li>
+        <li><a href="#03-什么是运算符重载">03 什么是运算符重载？</a></li>
+        <li><a href="#04-定义静态方法时static和class的区别">04 定义静态方法时static和class的区别？</a></li>
+        <li><a href="#05-swift中如何定义下标">05 swift中如何定义下标？</a></li>
+        <li><a href="#06-说明swift中的初始化器">06 说明swift中的初始化器</a></li>
+        <li><a href="#07-swift和oc的初始化方法有什么不同">07 Swift和OC的初始化方法有什么不同？</a></li>
+        <li><a href="#08-swift有那些闭包">08 swift有那些闭包？</a></li>
+        <li><a href="#09-swift中如何使用单例">09 swift中如何使用单例</a></li>
+        <li><a href="#10-swift语法糖的本质实现原理">10 swift语法糖的本质（实现原理）</a></li>
+        <li><a href="#11-如何解决循环引用">11 如何解决循环引用</a></li>
+        <li><a href="#12-如何理解copy-on-write">12 如何理解copy-on-write?</a></li>
+        <li><a href="#13-swift为什么将stringarraydictionary设计为值类型">13 swift为什么将String/Array/Dictionary设计为值类型</a></li>
+        <li><a href="#14-什么属性观察">14 什么属性观察？</a></li>
+        <li><a href="#15-swift自省和oc有什么区别">15 swift自省和OC有什么区别？</a></li>
+        <li><a href="#16-swift中的扩展和oc的分类有什么不同">16 Swift中的扩展和OC的分类有什么不同？</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

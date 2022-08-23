@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Introduction on cleinTTech</title>
+    <link>https://blog.page3app.com/</link>
+    <description>Recent content in Introduction on cleinTTech</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 23 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.page3app.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>8月</title>
+      <link>https://blog.page3app.com/docs/history/2022/2208/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/history/2022/2208/</guid>
+      <description>8月记 #  </description>
+    </item>
+    
+    <item>
+      <title>9月</title>
+      <link>https://blog.page3app.com/docs/history/2022/2209/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/history/2022/2209/</guid>
+      <description>9月记 #  </description>
+    </item>
+    
+    <item>
+      <title>Flex弹性布局</title>
+      <link>https://blog.page3app.com/docs/category/css/01-flex%E5%B8%83%E5%B1%80/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/01-flex%E5%B8%83%E5%B1%80/</guid>
+      <description>Flex弹性布局 #  Flex布局和传统布局比较
+传统布局的优缺点：
+ 兼容性好 布局繁琐 不能很好的适用于移动端布局  Flex弹性布局：
+ 操作方便，布局简单 PC端浏览器支持情况较差 IE 11或更低版本，部分支持  建议：PC端布局用传统布局；移动端或不考虑兼容性，用Flex布局
+Flex布局原理 #  Flex用来为盒子状模型提供最大的灵活性，任何一个容器都可以指定flex布局
+注意
+当我们为父盒子设为flex布局之后，子元素的float clear和vertical-align属性将失效  原理：采用Flex布局的元素，称为Flex容器（flex container）；它所有的子元素自动成为容器成员，称为Flex 项目（flex item）；项目可以横向排列也可以纵向排列。Flex布局就是通过给容器添加flex属性，来控制项目的位置和排列方式。
+父项常用属性 #  div {  /* 1 设置主轴的方向 */  flex-direction: row;   /* 2 设置主轴上子元素的排列方式 */  justify-content: flex-start;   /* 3 设置子元素是否换行*/  flex-wrap: nowrap;   /* 4 设置侧轴上子元素的排列方式（单行） */  align-items: flex-start;   /* 5 设置侧轴上子元素的排列方式（多行，子项出现换行）*/  align-content: flex-start;   /* 6 设置主轴和是否换行（列） */  flex-flow: row wrap; } flex-direction #  该属性设置主轴的方向。flex中的项目是沿着主轴排列的；我们可以通过设置flex-direction来设置主轴为X轴或Y轴</description>
+    </item>
+    
+    <item>
+      <title>Swift</title>
+      <link>https://blog.page3app.com/posts/public_0201/</link>
+      <pubDate>Tue, 23 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/posts/public_0201/</guid>
+      <description>Swift #  Swift 是一种支持多编程范式和编译式的开源编程语言,苹果于2014年WWDC（苹果开发者大会）发布，用于开发 iOS，OS X 和 watchOS 应用程序。 Swift 结合了 C 和 Objective-C 的优点并且不受 C 兼容性的限制。 Swift 在 Mac OS 和 iOS 平台可以和 Object-C 使用相同的运行环境。 2015年6月8日，苹果于WWDC 2015上宣布，Swift将开放源代码，包括编译器和标准库。</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/css/02-first-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/02-first-page/</guid>
+      <description>First page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/css/02-page-2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/02-page-2/</guid>
+      <description>Second Page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/css/04-second-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/css/04-second-page/</guid>
+      <description>Second Page #  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/django_csrf/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/django_csrf/</guid>
+      <description>Django csrf防御机制 #  csrf（跨站请求伪造）攻击介绍 #  跨站请求攻击，简单地说，是攻击者通过一些技术手段欺骗用户的浏览器去访问一个自己曾经认证过的网站并执行一些操作（如发邮件，发消息，甚至财产操作如转账和购买商品）。由于浏览器曾经认证过，所以被访问的网站会认为是真正的用户操作而去执行。
+这利用了web中用户身份验证的一个漏洞：简单的身份验证只能保证请求是发自某个用户的浏览器，却不能保证请求本身是用户自愿发出的。
+一个例子
+假如一家银行用以执行转账操作的URL地址如下： https://bank.example.com/withdraw?account=AccoutName&amp;amp;amount=1000&amp;amp;for=PayeeName
+那么，一个恶意攻击者可以在另一个网站上放置如下代码： &amp;lt;img src=&amp;quot;https://bank.example.com/withdraw?account=Alice&amp;amp;amount=1000&amp;amp;for=Badman&amp;quot; /&amp;gt;
+如果有账户名为Alice的用户访问了恶意站点，而她之前刚访问过银行不久，登录信息尚未过期，那么她就会损失1000资金。
+透过例子能够看出，攻击者并不能通过CSRF攻击来直接获取用户的账户控制权，也不能直接窃取用户的任何信息。他们能做到的，是欺骗用户的浏览器，让其以用户的名义执行操作。
+Django 防御 #  在客户端页面上添加csrftoken, 服务器端进行验证，服务器端验证的工作通过&amp;rsquo;django.middleware.csrf.CsrfViewMiddleware&amp;rsquo;这个中间层来完成。
+&amp;hellip;待续
+Tips #  如何关闭验证
+在视图函数中添加csrf_exempt装饰
+from django.views.decorators.csrf import csrf_exempt  @csrf_exempt def post_data(request):  pass 在urlconf中配置
+from django.views.decorators.csrf import csrf_exempt urlpatterns = [  url(r&amp;#39;^post/get_data/$&amp;#39;, csrf_exempt(post_data), name=&amp;#39;post_data&amp;#39;),  ] </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/django_post/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/django_post/</guid>
+      <description>Django RUSTApi 开发 #  Django实现Post请求 #  以下是在view中添加一个post请求的完整示例
+# views.py from django.http import HttpResponse, JsonResponse from django.views.decorators.csrf import csrf_exempt  # 如果需要取消该请求的CSRF验证,否则单独请求时会返回403 @csrf_exempt def markdown_wiki_update(request):  # 1. 非post请求直接返回  if request.method != &amp;#39;POST&amp;#39;:  return JsonResponse(RES_JSON_DICT)   # 2. 解析json形式的body  try:  json_body = json.loads(request.body)  except Exception as e:  print(&amp;#39;Reason:&amp;#39;, e)  return JsonResponse(RES_JSON_DICT)   # 3. 数据更新操作  # ...   # 4.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/model_backup/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/model_backup/</guid>
+      <description>数据（Model）备份 #  dumpdata #  django的dumpdata可以备份（导出）模型实例或整个数据库
+# 导出整个数据库 python manage.py dumpdata &amp;gt; db.json  # 导出某个app（备份admin到admin.json） python manage.py dumpdata admin &amp;gt; admin.json  # 导出某个app（指定settings） python manage.py dumpdata appname --settings=settings.settings_dev_win &amp;gt; ./resource/appname.json loaddata #  我们可以使用loaddata将备份数据导入到数据库中
+# 导入某个数据库 python manage.py loaddata --settings=settings.settings_dev_win ./esource/appname.json 遇到的问题 #  编码问题 #  在使用loaddata出现以下错误：
+ Python: Can dumpdata cannot loaddata back. UnicodeDecodeError
+ 解决方法：将导出的json文件使用utf-8编码重写保存（推荐使用vscode）
+注意settings设置 #  导出和导入时使用同一个settings文件（至少要包含所导入的app）</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/model_filter/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/model_filter/</guid>
+      <description>模型操作之查询与修改 #  创建数据模型完成，Django自动提供一套数据库操作API，运行创建，查询，更新和删除对象。本文介绍这些常用操作。
+1.0 检索最新修改的10个对象 #  这个操作设计以下几个api
+objects和QuerySet #  模型创建完成后，就会自动生成一个默认名称为objects的Manager，Manager提供一系列的api来生成满足特定条件的QuerySet。
+一个QuerySet代表满足特定条件的集合，在SQL层面上对应SELECT语句。
+# 只能通过模型类访问Managers, 而不能是具体的实例 MyModel.objects  # 返回模型的所有实例 MyModel.objects.all() 切片 #  可以使用python数组切片语法将QuerySet切成指定长度
+# 返回前5个实例（LIMIT 5） MyModel.objects.all()[:5]  # 返回第6到10个对象（OFFSET 5 LIMIT 5） MyModel.objects.all()[5:10]  # 不支持负索引，下面的代码会抛出异常而不是返回最后5个实例 # MyModel.objects.all()[-5:]  # 默认情况返回的QuerySet并为执行查询，但是使用切片的步长语法时将会执行查询 # 获取前10个对象，每隔一个对象取出组成列表 MyModel.objects.all()[:10:2] order_by #  order_by使用特定参数执行对象排序。
+# 以update_time排序（正序） MyModel.objects.order_by(&amp;#39;update_time&amp;#39;)  # 以update_time排序（逆序） MyModel.objects.order_by(&amp;#39;-update_time&amp;#39;)  # 检索最新修改的10个对象 MyModel.objects.order_by(&amp;#39;-update_time&amp;#39;)[:10] 处理异常 #  当使用get查找对象不存在时，会出发DoesNotExist异常
+try:  md = MyModel.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/template/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/template/</guid>
+      <description>常用模板语法 #  include #  include就是引入其他文件内容，把网页中的公共部分拿出来，重复利用，方便改动。
+&amp;lt;!-- 引入广告页面 --&amp;gt; {% include &amp;#39;ad.html&amp;#39; %} 传递变量 #  # views.py  def homepage(request):  title = &amp;#34;my site&amp;#34;  return render(request, &amp;#39;home.html&amp;#39;, {&amp;#39;title&amp;#39;:title})   # 模板中使用homepage.html # &amp;lt;p&amp;gt;{{ title }}&amp;lt;/p&amp;gt; 变量作为标签属性 #  可以直接使用，如下的变量month_str
+&amp;lt;input class=&amp;#34;diary-month-picker&amp;#34; type=&amp;#34;text&amp;#34; id=&amp;#34;inputDate&amp;#34; placeholder=&amp;#34;选择月份&amp;#34; value=&amp;#34;{{ month_str }}&amp;#34;&amp;gt; 数组遍历 #  # views.py </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/urls/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/urls/</guid>
+      <description>URL调度器 #  在Django中urls.py文件定义了url地址到视图的映射关系。本文介绍常见的url定义方式和注意问题
+###一个简单的例子
+# urls.py from django.urls import path, re_path  urlpatterns = [  # 匹配绝对地址  path(&amp;#39;articles/2003/&amp;#39;, views.special_case_2003),   # 传递参数  path(&amp;#39;detail/&amp;lt;int:year&amp;gt;/&amp;#39;, views.blog_detail),   # 使用正则  re_path(r&amp;#39;markdown/detail/*&amp;#39;, md_view.md_detail, name=&amp;#39;md_wiki_detail&amp;#39;), ]  # view.py def blog_detail(request, wid):  return HttpResponse(&amp;#34;hello world {}&amp;#34;.format(wid)) </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/djiango/views/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/djiango/views/</guid>
+      <description>Views基础操作 #  将view拆分为多个文件 #  新建views包，将原有views.py文件移动到views包中（注意改名），下面是使用示例
+# 目录结构 &amp;#34;&amp;#34;&amp;#34; - views - - __init__.py - - base_views.py - urls.py ... &amp;#34;&amp;#34;&amp;#34; # __init__.py from .base_views import *  # urls.py from .views import base_view urlpatterns = [  path(&amp;#39;&amp;#39;, base_view.wiki_home, name=&amp;#39;wiki_home&amp;#39;), ] </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/0218_swift_interv_1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/0218_swift_interv_1/</guid>
+      <description>Swift面试刷题（一） #  swift基础面试题
+01 swift枚举的关联值和原始值怎么区分？ #  关联值：是指将枚举成员和其他类型的变量存储在一起 原始值：枚举成员可以使用相同类型的默认值预先绑定，这个默认值叫做原始值
+enum Date {  // 设置枚举成员关联值  case digit(year:Int, month:Int, day:Int)  case string(String) }  enum Grade: String {  case perfect = &amp;#34;A&amp;#34;  case great = &amp;#34;B&amp;#34;  // ... } 02 什么是延时存储属性？ #  使用lazy可以定义一个延时存储属性，在第一次使用时才进行初始化；
+使用lazy的注意点：
+ lazy必须是var属性 lazy线程不安全，多线程同时访问时，无法保证只初始化一次  // 定义lazy属性 class PicView {  lazy var image: Image = {  return Image(data:data)  } } 03 什么是运算符重载？ #  类、结构体、枚举可以为现有的运算符提供自定义实现</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/0219_swift_interv_2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/0219_swift_interv_2/</guid>
+      <description>Swift面试刷题（二） #  Swift比较高级一点的面试题
+01 一个Sequence的索引是不是一定从0开始？ #  不一定；开始索引和Next方法实现相关。
+class Countdown: Sequence, IteratorProtocol {  var count: Int  init(count: Int) {  self.count = count  }  func next() -&amp;gt; Int? {  if count == 0 {  return nil  } else {  defer { count -= 1 }  return count  }  } } 02 数组都实现了哪些协议？ #  CollectionType/MutableCollectionType
+// 生成器 protocol GeneratorType {  typealias Element;  mutating func next() -&amp;gt; Element?</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/1_base_1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/1_base_1/</guid>
+      <description>1.1 Swift和OC的主要区别 #  1.1.1 编程范式 #   swift支持函数式编程，面向协议编程，面向对象编程 OC主要以面向对象为主  说明：swift是比较现代的编程语言。swift支持协议和协议扩展，从而支持面向协议编程；在swift中函数可以作为参，返回值和变量值，从而支持函数式编程。
+1.1.2 类型安全 #   swift是一门类型安全的语言，在编译时会做类型检查，如果类型不匹配会抛出一个错误，编译失败。 OC检查到类型不匹配时仅抛出警告。类型最终在运行时确定  1.1.3 值类型增强 #   在siwft中struct（结构体），enum（枚举）和tulpe（元组）都是值类型。其中String/Array/Dictionary/Set都是用结构体实现的也是值类型。 OC中NSString, NSNumber和集合类都是引用类型  值类型的优势：
+ 不变性：值类型在赋值时会从新创建一个新的值进行赋值。变量A对的修改，不会对变量B造成影响 独占性：引用类可能存在隐式的依赖，比如两个对象都持有同一个可变数组，那他们之间是有依赖的 可交换性  1.1.4 枚举增强 #   swift的枚举可以使用整形，浮点型，字符串；可以拥有属性和方法；可以支持泛型、协议和扩展。 OC的枚举只是一组整形值。  Swift枚举
+1.1.5 泛型 #   swift支持泛型，泛型类和泛型函数 OC仅仅在集合类型上添加了对泛型的支持  Swift泛型
+1.1.6 协议和扩展 #   Swift协议功能丰富，而且是强约束（遵守协议就要实现所有协议方法），可以用于结构体和枚举。配合协议扩展可以实现面向协议编程。 OC的协议是弱约束，提供optional特性。  1.1.7 函数闭包 #   在swift中可以直接定义函数类型变量，将函数作为参数和返回值。 在OC中不能定义函数类型变量，需要封装成selector或block。  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/2_data_2_access_control/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/2_data_2_access_control/</guid>
+      <description>2.1 Swift访问控制 #  访问控制，限定了其他源文件和模块中的代码访问对当前模块或源文件中类/方法/属性的访问权限。Swift的访问控制基于两个概念，模块和源文件：
+ 模块：一个框架（framework）或者一个app都被视为一个模块，可以使用import关键字导入 源文件：源文件就是模块中的单个源代码文件  访问控制级别 #  私有访问 #  私有访问指所修饰的方法只能在源文件中访问，该级别有两个关键字
+private 所修饰的方法或属性只能在当前类里面访问
+fileprivate 所修饰的方法或属性可以在当前源文件里访问
+内部访问 #  内部访问是指实体（类/方法/属性）可以被模块中的任意源文件访问，同时不可以被模块之外的源文件访问。内部访问是实体的默认访问级别，关键是internal（可以不写）
+公共访问 #  公共访问是指：实体可以被导入他所在模块的源文件使用（同时也可以在模块内的任意源文件使用）该级别有两个关键字。
+public 实体可以被其他模块访问，但不可以被继承和重写（override）。在所在模块内可以被重写和继承
+open 可以被任意模块访问，继承和重写
+代码实例 #  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/kadun/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/kadun/</guid>
+      <description>卡顿产生原因和优化 #  屏幕是根据VSync信号刷新屏幕；在两个VSync信号之间CPU要完成下一帧的计算任务，GPU要完成下一帧的渲染任务；如果当VSync信号到达时当前帧没渲染完成，那么屏幕就不会刷新，需要等待下一次VSync才会刷新。这实际就降低了屏幕的刷新率，使用户视觉上产生卡顿。
+优化思路 #  总体思路就是降低CPU和GPU消耗。
+降低CPU消耗的细节 #   不要频繁调整视图frame或者约束，尽量提前计算好一次调整 使用轻量级的对象，比如不需要交互的视图使用CALayer代替UIView 使用Autolayout会消耗额外性能 使用UImageView时，图片的Size和ImageView的Size最好保持对应（避免CPU做放缩操作） 避免创建过多的线程 耗时操作放到子线程（充分利用多核CPU）：文本处理（尺寸计算）；图片处理（解码，绘制）  图片异步解码的方式 #   首先拿到图片转换成CGImage 创建一个图形上下文 然后将CGImage通过DrawImage方法绘制到上下文中（这一步会进行解码） 然后从上图形上下文中提取CGImage数据，然后转换成UIImage数据，这个UIiamge数据就是解码后的image  GPU优化细节 #   减少视图层级 避免短时间，大量图片显示 GPU能处理的最大尺寸是4096x4096，一旦超过这个尺寸就会占用cpu资源进行处理，尽量不要超过这个尺寸 减少透明视图 opaque设置为YES（混合部分就要进行和成计算） 避免离屏渲染  离屏渲染 #  GPU有两种渲染方式：
+ On-Screen Rendering（当前屏幕渲染）：在当前用于显示的屏幕缓冲区进行渲染操作； Off-Screen Rendering（离屏渲染）：在当前屏幕缓冲区以外开辟一个新缓冲区进行渲染；  离屏渲染产生原因？
+渲染的画家算法；上层
+那些操作会触发离屏渲染
+ 光栅化，layer.shouldRastersize=YES 遮罩 mask 圆角 maskToBounds=YES 和 cornerRadius大于0同时设置 阴影（如果设置了layer.shadowPath就不会有离屏渲染）  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/kvo_kvc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/kvo_kvc/</guid>
+      <description>KVO实践和原理 #  从下面两道面试题入手学习KVO
+ iOS用什么方式实现一个对象的KVO？（KVO的本质是什么） 如何手动触发KVO？  KVC #  KVC面试题：
+ 使用KVC设值是否会触发KVO？ KVC的赋值和取值过程是怎样的？原理是什么？  KVC的设值原理 #  KVC设置内部的调用原理（调用优先级）
+ 找方法 setValue方法，_setValue方法 如果没找到则调用accessInstanceVariableDirectly（是否可以直接访问成员变量）。如果返回NO则查找终止，抛出异常。如果返回YES则进行第3步 按照：_key -&amp;gt; _isKey -&amp;gt; key -&amp;gt; isKey查找成员变量，找到后直接赋值 如果都没找到，则抛出异常   回答面试题1：会触发KVO，即使直接修改属性（不调用set方法）也会触发KVO；这个和我们自己直接修改成员变量不同（直接修改不会触发KVO）
+ KVC的取值过程 #   按照getKey -&amp;gt; key -&amp;gt; isKey -&amp;gt; _key的顺序查找get方法 如果没找到则调用accessInstanceVariableDirectly（是否可以直接访问成员变量）。如果返回NO则查找终止，抛出异常。如果返回YES则进行第3步 按照：_key -&amp;gt; _isKey -&amp;gt; key -&amp;gt; isKey查找成员变量，找到后直接取值 如果都没找到，则抛出异常  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/object_1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/object_1/</guid>
+      <description>1 OC对象的本质 #  我们平时编写的OC代码，底层实现是C/C++代码。OC中的对象是基于C/C++中的结构体实现的。
+1.1 将OC代码转成C/C++代码 #  使用clang的rewrite命令可以将OC转换成C++代码
+# 直接生成cpp代码（不推荐）   # 指定平台(iOS arm64) xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc main.m -o main-arm64.cpp  ps: 安装插件goto shell 可以很方便的在当前位置打开终端
+ 1.2 NSObject的本质 #  分析C++代码，研究对象本质
+struct NSObject_IMPL {  Class isa; // 64位（8个字节） };  // 其中Class是一个结构体指针 16个字节 #  使用class_getInstanceSize()函数获取对象占用的内存
+// 获取NSObject类的实例对象的大小 // 查看源码可知，它返回的是成员变量所占的空间大小 // 返回 8 class_getInstanceSize([NSObject class])  // 获取obj指针所指向内存的大小 // 需要先引入：#import &amp;lt;malloc/malloc.h&amp;gt; // 返回 16 malloc_size((__bridge const void *)obj) 回答面试题 #   一个NSObject对象占多少内存？</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/interview/pod_01/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/interview/pod_01/</guid>
+      <description>关于Cocoapod的面试题 #  1.在使用Cocoapod创建私有库时遇到那些问题？ #   使用子目录，如果不使用子目录，我们在私有库中创建的目录不会同步到使用者中。 向私有库中添加资源文件，如图片/音频时，使用resource_bundle，可以减少资源文件冲突。但使用asset管理资源时如果我们把asset文件夹直接添加到resource_bundle中会无法访问到其中的文件。后来使用resource属性（描述文件spec中定义）是可以访问的。  </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/python/py_list/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/python/py_list/</guid>
+      <description>python数组（list） #  list是python内置的一种数据类型，他是一种顺序集合，可以添加和删除元素，其中元素类型不必相同。内部保存的是数据的指针。
+list的增加元素的方式 #  append
+append用来向list末尾追加单个元素（参数为集合时，也视为单个元素）。
+insert
+insert用来将单个元素插入到list中，参数包括插入点索引和插入元素
+extend
+extend用来链接list，将参数集合的元素降维添加到list中</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/category/python/py_try_catch/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/category/python/py_try_catch/</guid>
+      <description>Python中的异常捕获 #  捕获所有异常 #  try:  # ... except Exception as e:  # ...  log(&amp;#39;Reason:&amp;#39;, e) </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/history/collapsed/3rd-level/4th-level/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/history/collapsed/3rd-level/4th-level/</guid>
+      <description>4th Level of Menu #  Caesorum illa tu sentit micat vestes papyriferi #  Inde aderam facti; Theseus vis de tauri illa peream. Oculos uberaque non regisque vobis cursuque, opus venit quam vulnera. Et maiora necemque, lege modo; gestanda nitidi, vero? Dum ne pectoraque testantur.
+Venasque repulsa Samos qui, exspectatum eram animosque hinc, aut manes, Assyrii. Cupiens auctoribus pariter rubet, profana magni super nocens. Vos ius sibilat inpar turba visae iusto!</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://blog.page3app.com/docs/history/hidden/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.page3app.com/docs/history/hidden/</guid>
+      <description>This page is hidden in menu #  Quondam non pater est dignior ille Eurotas #  Latent te facies #  Lorem markdownum arma ignoscas vocavit quoque ille texit mandata mentis ultimus, frementes, qui in vel. Hippotades Peleus pennas conscia cuiquam Caeneus quas.
+ Pater demittere evincitque reddunt Maxime adhuc pressit huc Danaas quid freta Soror ego Luctus linguam saxa ultroque prior Tatiumque inquit Saepe liquitur subita superata dederat Anius sudor  Cum honorum Latona #  O fallor in sustinui iussorum equidem.</description>
+    </item>
+    
+  </channel>
+</rss>

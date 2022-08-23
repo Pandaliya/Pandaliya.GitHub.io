@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="卡顿产生原因和优化 #  屏幕是根据VSync信号刷新屏幕；在两个VSync信号之间CPU要完成下一帧的计算任务，GPU要完成下一帧的渲染任务；如果当VSync信号到达时当前帧没渲染完成，那么屏幕就不会刷新，需要等待下一次VSync才会刷新。这实际就降低了屏幕的刷新率，使用户视觉上产生卡顿。
+优化思路 #  总体思路就是降低CPU和GPU消耗。
+降低CPU消耗的细节 #   不要频繁调整视图frame或者约束，尽量提前计算好一次调整 使用轻量级的对象，比如不需要交互的视图使用CALayer代替UIView 使用Autolayout会消耗额外性能 使用UImageView时，图片的Size和ImageView的Size最好保持对应（避免CPU做放缩操作） 避免创建过多的线程 耗时操作放到子线程（充分利用多核CPU）：文本处理（尺寸计算）；图片处理（解码，绘制）  图片异步解码的方式 #   首先拿到图片转换成CGImage 创建一个图形上下文 然后将CGImage通过DrawImage方法绘制到上下文中（这一步会进行解码） 然后从上图形上下文中提取CGImage数据，然后转换成UIImage数据，这个UIiamge数据就是解码后的image  GPU优化细节 #   减少视图层级 避免短时间，大量图片显示 GPU能处理的最大尺寸是4096x4096，一旦超过这个尺寸就会占用cpu资源进行处理，尽量不要超过这个尺寸 减少透明视图 opaque设置为YES（混合部分就要进行和成计算） 避免离屏渲染  离屏渲染 #  GPU有两种渲染方式：
+ On-Screen Rendering（当前屏幕渲染）：在当前用于显示的屏幕缓冲区进行渲染操作； Off-Screen Rendering（离屏渲染）：在当前屏幕缓冲区以外开辟一个新缓冲区进行渲染；  离屏渲染产生原因？
+渲染的画家算法；上层
+那些操作会触发离屏渲染
+ 光栅化，layer.shouldRastersize=YES 遮罩 mask 圆角 maskToBounds=YES 和 cornerRadius大于0同时设置 阴影（如果设置了layer.shadowPath就不会有离屏渲染）  ">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="卡顿产生原因和优化 #  屏幕是根据VSync信号刷新屏幕；在两个VSync信号之间CPU要完成下一帧的计算任务，GPU要完成下一帧的渲染任务；如果当VSync信号到达时当前帧没渲染完成，那么屏幕就不会刷新，需要等待下一次VSync才会刷新。这实际就降低了屏幕的刷新率，使用户视觉上产生卡顿。
+优化思路 #  总体思路就是降低CPU和GPU消耗。
+降低CPU消耗的细节 #   不要频繁调整视图frame或者约束，尽量提前计算好一次调整 使用轻量级的对象，比如不需要交互的视图使用CALayer代替UIView 使用Autolayout会消耗额外性能 使用UImageView时，图片的Size和ImageView的Size最好保持对应（避免CPU做放缩操作） 避免创建过多的线程 耗时操作放到子线程（充分利用多核CPU）：文本处理（尺寸计算）；图片处理（解码，绘制）  图片异步解码的方式 #   首先拿到图片转换成CGImage 创建一个图形上下文 然后将CGImage通过DrawImage方法绘制到上下文中（这一步会进行解码） 然后从上图形上下文中提取CGImage数据，然后转换成UIImage数据，这个UIiamge数据就是解码后的image  GPU优化细节 #   减少视图层级 避免短时间，大量图片显示 GPU能处理的最大尺寸是4096x4096，一旦超过这个尺寸就会占用cpu资源进行处理，尽量不要超过这个尺寸 减少透明视图 opaque设置为YES（混合部分就要进行和成计算） 避免离屏渲染  离屏渲染 #  GPU有两种渲染方式：
+ On-Screen Rendering（当前屏幕渲染）：在当前用于显示的屏幕缓冲区进行渲染操作； Off-Screen Rendering（离屏渲染）：在当前屏幕缓冲区以外开辟一个新缓冲区进行渲染；  离屏渲染产生原因？
+渲染的画家算法；上层
+那些操作会触发离屏渲染
+ 光栅化，layer.shouldRastersize=YES 遮罩 mask 圆角 maskToBounds=YES 和 cornerRadius大于0同时设置 阴影（如果设置了layer.shadowPath就不会有离屏渲染）  " />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.page3app.com/docs/category/interview/kadun/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Kadun | cleinTTech</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.c58292d36b18b675680ab9baea2029204537b839ea72f258746ec0f32ce8d6c8.css" integrity="sha256-xYKS02sYtnVoCrm66iApIEU3uDnqcvJYdG7A8yzo1sg=" crossorigin="anonymous">
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.770342046ee92ec1ed875089914c20cc7d62a7b2b6a45a74042fd5ef6e2cdf34.js" integrity="sha256-dwNCBG7pLsHth1CJkUwgzH1ip7K2pFp0BC/V724s3zQ=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>cleinTTech</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>分类</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="toggle"  />
+    <label for="section-66ce016a7e86af4b7d460a5b7ff3f31d" class="flex justify-between">
+      <a role="button" class="">Css</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/01-flex%E5%B8%83%E5%B1%80/" class="">Flex弹性布局</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-first-page/" class="">02 First Page</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/02-page-2/" class="">02 Page 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/css/04-second-page/" class="">04 Second Page</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-cff8620492641e1d4b90041156dec6ef" class="toggle"  />
+    <label for="section-cff8620492641e1d4b90041156dec6ef" class="flex justify-between">
+      <a role="button" class="">Djiango</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_csrf/" class="">Django Csrf</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/django_post/" class="">Django Post</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_backup/" class="">Model Backup</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/model_filter/" class="">Model Filter</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/template/" class="">Template</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/urls/" class="">Urls</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/djiango/views/" class="">Views</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4ce87f3fa13c1f6413535fcc61462ded" class="toggle" checked />
+    <label for="section-4ce87f3fa13c1f6413535fcc61462ded" class="flex justify-between">
+      <a role="button" class="">Interview</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0218_swift_interv_1/" class="">0218 Swift Interv 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/0219_swift_interv_2/" class="">0219 Swift Interv 2</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/1_base_1/" class="">1 Base 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/2_data_2_access_control/" class="">2 Data 2 Access Control</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kadun/" class="active">Kadun</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/kvo_kvc/" class="">Kvo Kvc</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/object_1/" class="">Object 1</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/interview/pod_01/" class="">Pod 01</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-4dcc57394df1483745561b76c00a9c84" class="toggle"  />
+    <label for="section-4dcc57394df1483745561b76c00a9c84" class="flex justify-between">
+      <a role="button" class="">Python</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_list/" class="">Py List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/category/python/py_try_catch/" class="">Py Try Catch</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li class="book-section-flat" >
+          
+  
+  
+
+  
+    <span>编年史</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-7b96a102071fe86f4e0815b916fab0dd" class="toggle"  />
+    <label for="section-7b96a102071fe86f4e0815b916fab0dd" class="flex justify-between">
+      <a role="button" class="">2022年</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2208/" class="">8月</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/2022/2209/" class="">9月</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <input type="checkbox" id="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="toggle"  />
+    <label for="section-5ddd11bd965e76c01bbf8f26247fa5ea" class="flex justify-between">
+      <a role="button" class="">Collapsed</a>
+    </label>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/" class="">3rd Level</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/history/collapsed/3rd-level/4th-level/" class="">4th Level</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+  
+<ul>
+  
+  <li>
+    <a href="/posts/" >
+        博客
+      </a>
+  </li>
+  
+</ul>
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Kadun</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#卡顿产生原因和优化">卡顿产生原因和优化</a>
+      <ul>
+        <li><a href="#优化思路">优化思路</a></li>
+        <li><a href="#降低cpu消耗的细节">降低CPU消耗的细节</a></li>
+        <li><a href="#gpu优化细节">GPU优化细节</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h2 id="卡顿产生原因和优化">
+  卡顿产生原因和优化
+  <a class="anchor" href="#%e5%8d%a1%e9%a1%bf%e4%ba%a7%e7%94%9f%e5%8e%9f%e5%9b%a0%e5%92%8c%e4%bc%98%e5%8c%96">#</a>
+</h2>
+<p>屏幕是根据VSync信号刷新屏幕；在两个VSync信号之间CPU要完成下一帧的计算任务，GPU要完成下一帧的渲染任务；如果当VSync信号到达时当前帧没渲染完成，那么屏幕就不会刷新，需要等待下一次VSync才会刷新。这实际就降低了屏幕的刷新率，使用户视觉上产生卡顿。</p>
+<h3 id="优化思路">
+  优化思路
+  <a class="anchor" href="#%e4%bc%98%e5%8c%96%e6%80%9d%e8%b7%af">#</a>
+</h3>
+<p>总体思路就是降低CPU和GPU消耗。</p>
+<h3 id="降低cpu消耗的细节">
+  降低CPU消耗的细节
+  <a class="anchor" href="#%e9%99%8d%e4%bd%8ecpu%e6%b6%88%e8%80%97%e7%9a%84%e7%bb%86%e8%8a%82">#</a>
+</h3>
+<ol>
+<li>不要频繁调整视图frame或者约束，尽量提前计算好一次调整</li>
+<li>使用轻量级的对象，比如不需要交互的视图使用CALayer代替UIView</li>
+<li>使用Autolayout会消耗额外性能</li>
+<li>使用UImageView时，图片的Size和ImageView的Size最好保持对应（避免CPU做放缩操作）</li>
+<li>避免创建过多的线程</li>
+<li>耗时操作放到子线程（充分利用多核CPU）：文本处理（尺寸计算）；图片处理（解码，绘制）</li>
+</ol>
+<h4 id="图片异步解码的方式">
+  图片异步解码的方式
+  <a class="anchor" href="#%e5%9b%be%e7%89%87%e5%bc%82%e6%ad%a5%e8%a7%a3%e7%a0%81%e7%9a%84%e6%96%b9%e5%bc%8f">#</a>
+</h4>
+<ol>
+<li>首先拿到图片转换成CGImage</li>
+<li>创建一个图形上下文</li>
+<li>然后将CGImage通过DrawImage方法绘制到上下文中（这一步会进行解码）</li>
+<li>然后从上图形上下文中提取CGImage数据，然后转换成UIImage数据，这个UIiamge数据就是解码后的image</li>
+</ol>
+<h3 id="gpu优化细节">
+  GPU优化细节
+  <a class="anchor" href="#gpu%e4%bc%98%e5%8c%96%e7%bb%86%e8%8a%82">#</a>
+</h3>
+<ol>
+<li>减少视图层级</li>
+<li>避免短时间，大量图片显示</li>
+<li>GPU能处理的最大尺寸是4096x4096，一旦超过这个尺寸就会占用cpu资源进行处理，尽量不要超过这个尺寸</li>
+<li>减少透明视图 opaque设置为YES（混合部分就要进行和成计算）</li>
+<li>避免离屏渲染</li>
+</ol>
+<h4 id="离屏渲染">
+  离屏渲染
+  <a class="anchor" href="#%e7%a6%bb%e5%b1%8f%e6%b8%b2%e6%9f%93">#</a>
+</h4>
+<p>GPU有两种渲染方式：</p>
+<ol>
+<li>On-Screen Rendering（当前屏幕渲染）：在当前用于显示的屏幕缓冲区进行渲染操作；</li>
+<li>Off-Screen Rendering（离屏渲染）：在当前屏幕缓冲区以外开辟一个新缓冲区进行渲染；</li>
+</ol>
+<p><strong>离屏渲染产生原因？</strong></p>
+<p>渲染的画家算法；上层</p>
+<p><strong>那些操作会触发离屏渲染</strong></p>
+<ol>
+<li>光栅化，layer.shouldRastersize=YES</li>
+<li>遮罩 mask</li>
+<li>圆角 maskToBounds=YES 和 cornerRadius大于0同时设置</li>
+<li>阴影（如果设置了layer.shadowPath就不会有离屏渲染）</li>
+</ol>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function e(n){const e=window.getSelection(),t=document.createRange();t.selectNodeContents(n),e.removeAllRanges(),e.addRange(t)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#卡顿产生原因和优化">卡顿产生原因和优化</a>
+      <ul>
+        <li><a href="#优化思路">优化思路</a></li>
+        <li><a href="#降低cpu消耗的细节">降低CPU消耗的细节</a></li>
+        <li><a href="#gpu优化细节">GPU优化细节</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
